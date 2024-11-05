@@ -18,7 +18,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var activityMainBinding: ActivityMainBinding
+    private lateinit var activityMainBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
