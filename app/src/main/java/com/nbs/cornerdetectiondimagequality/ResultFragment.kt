@@ -1,5 +1,6 @@
 package com.nbs.cornerdetectiondimagequality
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,22 +9,30 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nbs.cornerdetectiondimagequality.databinding.FragmentResultBinding
 
-class ResultFragment : DialogFragment() {
+class ResultFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentResultBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentResultBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog: BottomSheetDialog =
+            BottomSheetDialog(
+                requireContext()
+            )
+        binding = FragmentResultBinding.inflate(layoutInflater)
+        bottomSheetDialog.setContentView(binding.root)
+
+        binding.btnRetake.setOnClickListener{
+            dismiss()
+        }
+        return bottomSheetDialog
     }
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+    companion object {
+        const val TAG = "ResultFragment"
     }
 }

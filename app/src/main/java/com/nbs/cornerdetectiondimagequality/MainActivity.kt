@@ -30,6 +30,15 @@ class MainActivity : AppCompatActivity() {
         }else {
             startCamera()
         }
+
+        activityMainBinding.cameraButton.setOnClickListener{
+            showModalSheet()
+        }
+    }
+
+    private fun showModalSheet() {
+        val modalBottomSheet = ResultFragment()
+        modalBottomSheet.show(supportFragmentManager, ResultFragment.TAG)
     }
 
     private fun allPermissionsGranted() =
@@ -88,6 +97,8 @@ class MainActivity : AppCompatActivity() {
                     in 225 until 315 -> Surface.ROTATION_90
                     else -> Surface.ROTATION_0
                 }
+
+
             }
         }
     }
