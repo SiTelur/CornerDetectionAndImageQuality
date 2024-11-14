@@ -1,6 +1,7 @@
 package com.nbs.cornerdetectiondimagequality
 
 import android.app.Dialog
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,8 +23,12 @@ class ResultFragment : BottomSheetDialogFragment() {
             BottomSheetDialog(
                 requireContext()
             )
+
         binding = FragmentResultBinding.inflate(layoutInflater)
         bottomSheetDialog.setContentView(binding.root)
+
+        val data =  arguments?.getString(IMAGE)
+        binding.imageView.setImageURI(Uri.parse(data))
 
         binding.btnRetake.setOnClickListener{
             dismiss()
@@ -34,5 +39,6 @@ class ResultFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "ResultFragment"
+        const val IMAGE = "ImageResultImage"
     }
 }
