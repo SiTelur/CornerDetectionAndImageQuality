@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Corner Detection And Image Quality</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_first_criteria">Pastikan perangkat dalam keadaan menyala dan memiliki kecerahan yang cukup</string>
+    <string name="text_second_criteria">Menampilkan halaman 4 corner</string>
+    <string name="text_third_criteria">Foto harus terlihat jelas</string>
+
+    <string-array name="photo_criteria">
+        <item>Pastikan perangkat dalam kondisi menyala dan kecerahan layar yang cukup</item>
+        <item>Menampilkan halaman 4 Corner</item>
+        <item>Foto terlihat jelas</item>
+    </string-array>
 </resources>
