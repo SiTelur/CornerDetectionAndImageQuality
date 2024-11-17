@@ -105,7 +105,7 @@ takePicture()
             imageCapture = ImageCapture.Builder().build()
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer,imageCapture)
 
             } catch (e: Exception) {
                 Toast.makeText(
@@ -150,6 +150,7 @@ takePicture()
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
+                startCamera()
                 Log.d(TAG, "Permission request granted")
             } else {
                 Log.e(TAG, "Permission request denied")
@@ -166,7 +167,9 @@ takePicture()
         results: List<Classifications>?,
         inferenceTime: Long
     ) {
-        Log.d(TAG, "onResults: $results and $inferenceTime")
+        runOnUiThread {
+            Log.d(TAG, "onResults: $results and $inferenceTime")
+        }
     }
 
 

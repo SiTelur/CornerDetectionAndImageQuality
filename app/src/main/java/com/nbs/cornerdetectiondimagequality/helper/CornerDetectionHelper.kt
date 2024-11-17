@@ -13,6 +13,7 @@ import com.google.android.gms.tflite.gpu.support.TfLiteGpu
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.gpu.CompatibilityList
 import org.tensorflow.lite.support.common.ops.CastOp
+import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
@@ -25,7 +26,7 @@ import org.tensorflow.lite.task.gms.vision.classifier.ImageClassifier
 class CornerDetectionHelper(
     val threshold: Float = 0.5f,
     val maxResult: Int = 1,
-    val modelName : String = "corner_detection.tflite",
+    val modelName : String = "model.tflite",
     val context: Context,
     val imageClassifierListener: ClassifierListener?
 ) {
@@ -95,7 +96,8 @@ class CornerDetectionHelper(
 
         val imageProcessor = ImageProcessor.Builder()
             .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
-            .add(CastOp(DataType.FLOAT32))
+//            .add(NormalizeOp(127.5f, 127.5f))
+            .add(CastOp(DataType.UINT8))
             .build()
 
         val tensorImage = imageProcessor.process(TensorImage.fromBitmap(toBitmap(image)))
@@ -123,8 +125,6 @@ class CornerDetectionHelper(
 
     companion object {
         const val TAG = "CornerDetectionHelper"
-        const val DELEGATE_CPU = 0
-        const val DELEGATE_GPU = 1
     }
 
     private fun toBitmap(image: ImageProxy): Bitmap {
