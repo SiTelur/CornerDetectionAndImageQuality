@@ -13,19 +13,29 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.ImageProxy
+
 import androidx.camera.core.Preview
+import androidx.camera.core.resolutionselector.AspectRatioStrategy
+import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityMainBinding
+import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper
+import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper.ClassifierListener
 import com.nbs.cornerdetectiondimagequality.utils.createCustomTempFile
+import org.tensorflow.lite.task.gms.vision.classifier.Classifications
+import java.util.concurrent.Executors
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , ClassifierListener{
     private lateinit var activityMainBinding: ActivityMainBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var cropOverlay: ImageView
+
+    private lateinit var imageClassifierHelper: CornerDetectionHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +78,24 @@ takePicture()
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
     private fun startCamera() {
+
+        imageClassifierHelper = CornerDetectionHelper(context = this, imageClassifierListener = this)
+
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
+            val resolutionSelector = ResolutionSelector.Builder()
+                .setAspectRatioStrategy(AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY)
+                .build()
+            val imageAnalyzer = ImageAnalysis.Builder()
+                .setResolutionSelector(resolutionSelector)
+                .setTargetRotation(activityMainBinding.previewCamera.display.rotation)
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
+                .build()
+            imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) { image ->
+                imageClassifierHelper.detect(image)
+            }
+
             val cameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder()
                 .build()
@@ -79,7 +105,7 @@ takePicture()
             imageCapture = ImageCapture.Builder().build()
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer,imageCapture)
 
             } catch (e: Exception) {
                 Toast.makeText(
@@ -124,60 +150,26 @@ takePicture()
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
+                startCamera()
                 Log.d(TAG, "Permission request granted")
             } else {
                 Log.e(TAG, "Permission request denied")
             }
         }
 
-    private val orientationEventListener by lazy {
-        object : OrientationEventListener(this) {
-            override fun onOrientationChanged(orientation: Int) {
-                if (orientation == ORIENTATION_UNKNOWN) {
-                    return
-                }
-                val rotation = when (orientation) {
-                    in 45 until 135 -> Surface.ROTATION_270
-                    in 135 until 225 -> Surface.ROTATION_180
-                    in 225 until 315 -> Surface.ROTATION_90
-                    else -> Surface.ROTATION_0
-                }
-            }
+    override fun onError(error: String) {
+        runOnUiThread {
+            Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        orientationEventListener.enable()
-    }
-
-    private fun imageProxyToBitmap(imageProxy: ImageProxy): Bitmap {
-        val buffer = imageProxy.planes[0].buffer
-        val bytes = ByteArray(buffer.remaining())
-        buffer.get(bytes)
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-    }
-
-    private fun cropImage(original: Bitmap): Bitmap {
-        // Get the overlay dimensions relative to the preview
-        val previewRatio = activityMainBinding.previewCamera.width.toFloat() / activityMainBinding.previewCamera.height
-        val imageRatio = original.width.toFloat() / original.height
-
-        // Calculate crop dimensions
-        val cropWidth = original.width * 0.8f  // 80% of width
-        val cropHeight = cropWidth / 3.18f     // Maintain aspect ratio shown in image
-
-        // Calculate start points to center the crop
-        val startX = (original.width - cropWidth) / 2
-        val startY = (original.height - cropHeight) / 2
-
-        return Bitmap.createBitmap(
-            original,
-            startX.toInt(),
-            startY.toInt(),
-            cropWidth.toInt(),
-            cropHeight.toInt()
-        )
+    override fun onResults(
+        results: List<Classifications>?,
+        inferenceTime: Long
+    ) {
+        runOnUiThread {
+            Log.d(TAG, "onResults: $results and $inferenceTime")
+        }
     }
 
 
