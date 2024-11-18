@@ -1,12 +1,8 @@
 package com.nbs.cornerdetectiondimagequality
 
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
-import android.view.OrientationEventListener
-import android.view.Surface
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -21,11 +17,11 @@ import androidx.camera.core.Preview
 import androidx.camera.core.resolutionselector.AspectRatioStrategy
 import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityMainBinding
 import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper
 import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper.ClassifierListener
+import com.nbs.cornerdetectiondimagequality.presentation.component.ResultFragment
 import com.nbs.cornerdetectiondimagequality.utils.createCustomTempFile
 import org.tensorflow.lite.task.gms.vision.classifier.Classifications
 import java.util.concurrent.Executors
@@ -63,10 +59,10 @@ takePicture()
     private fun showModalSheet(image : String) {
         val modalBottomSheet = ResultFragment()
         val bundle = Bundle().apply {
-            putString(ResultFragment.IMAGE, image)
+            putString(ResultFragment.Companion.IMAGE, image)
         }
         modalBottomSheet.arguments = bundle
-        modalBottomSheet.show(supportFragmentManager, ResultFragment.TAG)
+        modalBottomSheet.show(supportFragmentManager, ResultFragment.Companion.TAG)
     }
 
     private fun allPermissionsGranted() =

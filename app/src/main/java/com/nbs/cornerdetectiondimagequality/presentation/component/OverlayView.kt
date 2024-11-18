@@ -1,8 +1,11 @@
-package com.nbs.cornerdetectiondimagequality
+package com.nbs.cornerdetectiondimagequality.presentation.component
 
+import android.R
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
@@ -15,13 +18,13 @@ class OverlayView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val paint = Paint().apply {
-        color = ContextCompat.getColor(context, android.R.color.black) // Dark color
+        color = ContextCompat.getColor(context, R.color.black) // Dark color
         alpha = 150 // Adjust transparency (0-255)
         style = Paint.Style.FILL
     }
     private val clearPaint = Paint().apply {
-        color = ContextCompat.getColor(context, android.R.color.transparent)
-        xfermode = android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR)
+        color = ContextCompat.getColor(context, R.color.transparent)
+        xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
 
     private val rect = RectF()

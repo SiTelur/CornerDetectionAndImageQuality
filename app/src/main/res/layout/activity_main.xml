@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent">
         </androidx.camera.view.PreviewView>
 
-        <com.nbs.cornerdetectiondimagequality.OverlayView
+        <com.nbs.cornerdetectiondimagequality.presentation.component.OverlayView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
