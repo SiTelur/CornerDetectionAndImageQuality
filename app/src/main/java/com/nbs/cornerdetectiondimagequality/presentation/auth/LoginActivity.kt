@@ -4,14 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
+
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.nbs.cornerdetectiondimagequality.R
+
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityLoginBinding
 import com.nbs.cornerdetectiondimagequality.presentation.dashboard.DashboardActivity
 import kotlinx.coroutines.launch
