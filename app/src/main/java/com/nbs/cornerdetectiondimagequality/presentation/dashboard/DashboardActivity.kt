@@ -10,6 +10,7 @@ import com.nbs.cornerdetectiondimagequality.databinding.ActivityDashboardBinding
 
 class DashboardActivity : AppCompatActivity() {
     lateinit var binding : ActivityDashboardBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
