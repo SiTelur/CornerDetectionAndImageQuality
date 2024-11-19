@@ -1,6 +1,7 @@
 package com.nbs.cornerdetectiondimagequality.presentation.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,6 +19,24 @@ class DashboardActivity : AppCompatActivity() {
 
         supportActionBar?.title = getString(R.string.dashboard)
 
+        binding.toggleButton.addOnButtonCheckedListener{ toggleButton, checkedId, isChecked ->
+            when (checkedId) {
+                 binding.buttonAll.id -> {
 
+                        Log.d("ToggleButton", "onCreate: ALL")
+
+                }
+                binding.buttonSuccess.id -> {
+                    if (isChecked) {
+                        Log.d("ToggleButton", "onCreate: SUCCESS")
+                    }
+                }
+                binding.buttonFailed.id -> {
+                    if (isChecked) {
+                        Log.d("ToggleButton", "onCreate: FAILED")
+                    }
+                }
+            }
+        }
     }
 }

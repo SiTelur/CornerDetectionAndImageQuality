@@ -20,4 +20,8 @@
         <item>Menampilkan halaman 4 Corner</item>
         <item>Foto terlihat jelas</item>
     </string-array>
+
+    <string name="all">All</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
 </resources>
