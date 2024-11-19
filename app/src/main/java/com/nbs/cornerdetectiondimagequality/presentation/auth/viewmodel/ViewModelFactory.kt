@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.nbs.cornerdetectiondimagequality.di.Injection
 import com.nbs.cornerdetectiondimagequality.repository.CornerDetectionRepository
 
-class AuthViewModelFactory(
+class ViewModelFactory(
     private val repository: CornerDetectionRepository
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
@@ -19,10 +19,10 @@ class AuthViewModelFactory(
 
     companion object {
         @Volatile
-        private var instance: AuthViewModelFactory? = null
-        fun getInstance(context: Context): AuthViewModelFactory =
+        private var instance: ViewModelFactory? = null
+        fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: AuthViewModelFactory(Injection.provideRepository(context))
+                instance ?: ViewModelFactory(Injection.provideRepository(context))
             }.also { instance = it }
     }
 }

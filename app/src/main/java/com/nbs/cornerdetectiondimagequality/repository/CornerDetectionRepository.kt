@@ -3,10 +3,12 @@ package com.nbs.cornerdetectiondimagequality.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import com.nbs.cornerdetectiondimagequality.presentation.auth.Session
+import com.nbs.cornerdetectiondimagequality.data.local.dao.HistoryDao
+import com.nbs.cornerdetectiondimagequality.utils.Session
 
 class CornerDetectionRepository(
-    private val session: Session
+    private val session: Session,
+    private val dao : HistoryDao
 ) {
 
     val pin: LiveData<String?> = session.getSession().asLiveData()
@@ -16,7 +18,7 @@ class CornerDetectionRepository(
     val isLogin: LiveData<Boolean> = _isLogin
 
     suspend fun saveSession(pin: String) {
-        session.saveSession(pin)
+        session.savePin(pin)
     }
 
     suspend fun setRegistered(status: Boolean) {

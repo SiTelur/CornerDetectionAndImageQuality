@@ -1,11 +1,10 @@
-package com.nbs.cornerdetectiondimagequality.presentation.auth
+package com.nbs.cornerdetectiondimagequality.utils
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +22,7 @@ class Session private constructor(private val session: DataStore<Preferences>) {
             .map { preferences -> preferences[SESSION_KEY] }
     }
 
-    suspend fun saveSession(pin: String) {
+    suspend fun savePin(pin: String) {
         session.edit { preferences ->
             preferences[SESSION_KEY] = pin
         }
