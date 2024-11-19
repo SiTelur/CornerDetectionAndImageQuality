@@ -23,12 +23,15 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         val session = Session.getInstance(application.session)
         val viewModel = ViewModelProvider(this, LoginViewModelFactory(session))[LoginViewModel::class.java]
 
         viewModel.pin.observe(this) { pin ->
             if (pin != null) {
                 startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+                finish()
                 Log.d("PIN", "PIN: $pin")
             }
         }
@@ -46,4 +49,5 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 }

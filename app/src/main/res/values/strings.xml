@@ -9,6 +9,11 @@
     <string name="text_third_criteria">Foto harus terlihat jelas</string>
     <string name="text_suggestion">Letakkan di dalam kotak untuk hasil yang maksimal</string>
 
+    <string name="dashboard">Dashboard</string>
+    <string name="history">Riwayat Anda</string>
+    <string name="camera">Scan</string>
+
+    <string name="history_null">Anda belum mempunyai riwayat scan</string>
 
     <string-array name="photo_criteria">
         <item>Pastikan perangkat dalam kondisi menyala dan kecerahan layar yang cukup</item>
