@@ -7,8 +7,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityLoginBinding
-import com.nbs.cornerdetectiondimagequality.presentation.auth.viewmodel.AuthViewModel
-import com.nbs.cornerdetectiondimagequality.presentation.auth.viewmodel.ViewModelFactory
+import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.AuthViewModel
+import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
 import com.nbs.cornerdetectiondimagequality.presentation.ui.dashboard.DashboardActivity
 import com.nbs.cornerdetectiondimagequality.presentation.ui.register.RegisterActivity
 import com.ozcanalasalvar.otp_view.view.OtpView
@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
         binding.textfieldPin.setTextChangeListener(object : OtpView.ChangeListener {
             override fun onTextChange(value: String, completed: Boolean) {
                 if (completed) {
-                    val pinPassword = value
+                    val pinPassword = viewModel.pin.value
                     viewModel.pin.observe(this@LoginActivity) {
                         if (pinPassword == value) {
                             startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))

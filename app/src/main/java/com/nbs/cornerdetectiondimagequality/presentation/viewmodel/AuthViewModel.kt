@@ -1,7 +1,6 @@
-package com.nbs.cornerdetectiondimagequality.presentation.auth.viewmodel
+package com.nbs.cornerdetectiondimagequality.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nbs.cornerdetectiondimagequality.repository.CornerDetectionRepository

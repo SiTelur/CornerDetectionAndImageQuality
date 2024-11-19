@@ -1,4 +1,4 @@
-package com.nbs.cornerdetectiondimagequality.presentation.auth.viewmodel
+package com.nbs.cornerdetectiondimagequality.presentation.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -11,10 +11,17 @@ class ViewModelFactory(
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
-            return AuthViewModel(repository) as T
+        return when {
+            modelClass.isAssignableFrom(AuthViewModel::class.java) -> {
+                AuthViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(DashboardViewModel::class.java) -> {
+                DashboardViewModel(repository) as T
+            }
+            else -> {
+                throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+            }
         }
-        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 
     companion object {

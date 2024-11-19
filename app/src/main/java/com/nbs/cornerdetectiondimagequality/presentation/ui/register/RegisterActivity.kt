@@ -1,15 +1,12 @@
 package com.nbs.cornerdetectiondimagequality.presentation.ui.register
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityRegisterBinding
-import com.nbs.cornerdetectiondimagequality.presentation.auth.viewmodel.AuthViewModel
-import com.nbs.cornerdetectiondimagequality.presentation.auth.viewmodel.ViewModelFactory
-import com.nbs.cornerdetectiondimagequality.presentation.ui.dashboard.DashboardActivity
+import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.AuthViewModel
+import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
+import com.ozcanalasalvar.otp_view.view.OtpView
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -24,6 +21,19 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
+        viewModel.isRegistered.observe(this){ isRegistered ->
+            finish()
+        }
+
+        binding.textfieldPin.setTextChangeListener(object : OtpView.ChangeListener{
+            override fun onTextChange(value: String, completed: Boolean) {
+                if (completed){
+                    viewModel.savePin(value)
+                }
+            }
+        })
+
 
 
     }
