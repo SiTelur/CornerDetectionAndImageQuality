@@ -18,7 +18,11 @@
         android:theme="@style/AppTheme.CornerDetectionAndImageQuality"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.auth.LoginActivity"
+            android:name=".presentation.auth.ui.RegisterActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".presentation.auth.ui.LoginActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,13 +30,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".presentation.dashboard.DashboardActivity"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="false" />
+
     </application>
 
 </manifest>

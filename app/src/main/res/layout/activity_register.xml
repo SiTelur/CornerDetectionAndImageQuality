@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".presentation.auth.ui.LoginActivity">
+    tools:context=".presentation.auth.ui.RegisterActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
-        android:text="WELCOME TO APP DETECTION CORNER"
+        android:text="CREATE AN ACCOUNT"
         android:textStyle="bold"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,11 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pin"
@@ -42,37 +42,14 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Register"
         android:layout_marginTop="60dp"
         android:layout_marginHorizontal="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textfield_pin" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="12dp"
-        android:text="Belum memiliki akun? "
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/btn_register"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:layout_width="64dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="88dp"
-        android:text="Daftar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
