@@ -1,37 +1,47 @@
-package com.nbs.cornerdetectiondimagequality
+package com.nbs.cornerdetectiondimagequality.presentation.ui.camera
 
+import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 
 import androidx.camera.core.Preview
-import androidx.camera.core.resolutionselector.AspectRatioStrategy
-import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.nbs.cornerdetectiondimagequality.R
+import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityMainBinding
 import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper
 import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper.ClassifierListener
 import com.nbs.cornerdetectiondimagequality.presentation.component.ResultFragment
+import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.CameraViewModel
+import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
 import com.nbs.cornerdetectiondimagequality.utils.createCustomTempFile
+import com.nbs.cornerdetectiondimagequality.utils.toBitmap
 import org.tensorflow.lite.task.gms.vision.classifier.Classifications
-import java.util.concurrent.Executors
+import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() , ClassifierListener{
     private lateinit var activityMainBinding: ActivityMainBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var cropOverlay: ImageView
 
-    private lateinit var imageClassifierHelper: CornerDetectionHelper
+    private lateinit var cornerDetectionHelper: CornerDetectionHelper
+
+    private val cameraViewModel by viewModels<CameraViewModel>{
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,23 +85,10 @@ takePicture()
 
     private fun startCamera() {
 
-        imageClassifierHelper = CornerDetectionHelper(context = this, imageClassifierListener = this)
+        cornerDetectionHelper = CornerDetectionHelper(context = this, imageClassifierListener = this)
 
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
-            val resolutionSelector = ResolutionSelector.Builder()
-                .setAspectRatioStrategy(AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY)
-                .build()
-            val imageAnalyzer = ImageAnalysis.Builder()
-                .setResolutionSelector(resolutionSelector)
-                .setTargetRotation(activityMainBinding.previewCamera.display.rotation)
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
-                .build()
-            imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) { image ->
-                imageClassifierHelper.detect(image)
-            }
-
             val cameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder()
                 .build()
@@ -101,7 +98,7 @@ takePicture()
             imageCapture = ImageCapture.Builder().build()
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer,imageCapture)
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview,imageCapture)
 
             } catch (e: Exception) {
                 Toast.makeText(
@@ -124,7 +121,7 @@ takePicture()
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    showModalSheet(output.savedUri.toString())
+                    cornerDetectionHelper.detectCorner(uri = output.savedUri)
                 }
                 override fun onError(exc: ImageCaptureException) {
                     Toast.makeText(
@@ -161,16 +158,19 @@ takePicture()
 
     override fun onResults(
         results: List<Classifications>?,
-        inferenceTime: Long
+        inferenceTime: Long,
+        uri: Uri?
     ) {
-        runOnUiThread {
-            Log.d(TAG, "onResults: $results and $inferenceTime")
-        }
+     runOnUiThread{
+         val data = HistoryActivity(title = "Pendeteksian", pictureUri = uri.toString(), timestamp = LocalDateTime.now(), isSuccess = false )
+         cameraViewModel.insertData(data)
+         Log.d(TAG, "onResults: $data")
+     }
     }
 
 
     companion object {
-        private const val REQUIRED_PERMISSION = android.Manifest.permission.CAMERA
+        private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
         private const val TAG = "MainActivity"
     }
 }

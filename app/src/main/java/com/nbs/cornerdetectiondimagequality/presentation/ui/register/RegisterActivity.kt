@@ -22,14 +22,12 @@ class RegisterActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        viewModel.isRegistered.observe(this){ isRegistered ->
-            finish()
-        }
-
         binding.textfieldPin.setTextChangeListener(object : OtpView.ChangeListener{
             override fun onTextChange(value: String, completed: Boolean) {
                 if (completed){
+
                     viewModel.savePin(value)
+                    finish()
                 }
             }
         })

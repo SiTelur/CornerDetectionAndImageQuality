@@ -4,14 +4,14 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.nbs.cornerdetectiondimagequality.utils.RoomDateConverter
-import java.util.Date
+import java.time.LocalDateTime
 
 @Entity
 data class HistoryActivity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val pictureUri: String,
     @TypeConverters(RoomDateConverter::class)
-    val timestamp: Date,
+    val timestamp: LocalDateTime,
     val isSuccess: Boolean
 )

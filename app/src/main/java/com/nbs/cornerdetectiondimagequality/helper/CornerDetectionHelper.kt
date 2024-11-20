@@ -3,6 +3,7 @@ package com.nbs.cornerdetectiondimagequality.helper
 import com.nbs.cornerdetectiondimagequality.R
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
 import android.util.Log
@@ -10,10 +11,10 @@ import android.view.Surface
 import androidx.camera.core.ImageProxy
 import com.google.android.gms.tflite.client.TfLiteInitializationOptions
 import com.google.android.gms.tflite.gpu.support.TfLiteGpu
+import com.nbs.cornerdetectiondimagequality.utils.toBitmap
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.gpu.CompatibilityList
 import org.tensorflow.lite.support.common.ops.CastOp
-import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
@@ -79,7 +80,7 @@ class CornerDetectionHelper(
         }
     }
 
-    fun detect(image: ImageProxy) {
+    fun detectCorner(uri: Uri?) {
 
         if (!TfLiteVision.isInitialized()) {
             val errorMessage = context.getString(R.string.tflitevision_is_not_initialized_yet)
@@ -100,10 +101,9 @@ class CornerDetectionHelper(
             .add(CastOp(DataType.UINT8))
             .build()
 
-        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(toBitmap(image)))
+        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(uri?.toBitmap(context)))
 
         val imageProcessingOptions = ImageProcessingOptions.builder()
-            .setOrientation(getOrientationFromRotation(image.imageInfo.rotationDegrees))
             .build()
 
 
@@ -111,7 +111,8 @@ class CornerDetectionHelper(
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
         imageClassifierListener?.onResults(
             results,
-            inferenceTime
+            inferenceTime,
+            uri
         )
     }
 
@@ -119,7 +120,8 @@ class CornerDetectionHelper(
         fun onError(error: String)
         fun onResults(
             results: List<Classifications>?,
-            inferenceTime: Long
+            inferenceTime: Long,
+            uri: Uri?
         )
     }
 

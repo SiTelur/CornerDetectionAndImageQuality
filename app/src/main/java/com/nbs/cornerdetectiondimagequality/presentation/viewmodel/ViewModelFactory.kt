@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nbs.cornerdetectiondimagequality.di.Injection
+import com.nbs.cornerdetectiondimagequality.presentation.ui.camera.MainActivity
 import com.nbs.cornerdetectiondimagequality.repository.CornerDetectionRepository
 
 class ViewModelFactory(
@@ -17,6 +18,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(DashboardViewModel::class.java) -> {
                 DashboardViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(CameraViewModel::class.java) -> {
+                CameraViewModel(repository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

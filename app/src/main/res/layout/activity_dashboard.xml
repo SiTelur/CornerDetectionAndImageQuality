@@ -21,53 +21,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggleButton"
-            android:layout_width="wrap_content"
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:singleSelection="true"
-            app:selectionRequired="true"
-            app:checkedButton="@id/buttonAll"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/buttonAll"
-                style="?attr/materialButtonOutlinedStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabMode="fixed">
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/all" />
+                android:text="All" />
 
-            <Button
-                android:id="@+id/buttonSuccess"
-                style="?attr/materialButtonOutlinedStyle"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/success" />
+                android:text="Success" />
 
-            <Button
-                android:id="@+id/buttonFailed"
-                style="?attr/materialButtonOutlinedStyle"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/failed" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+                android:text="Failed" />
+        </com.google.android.material.tabs.TabLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewHistory"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"/>
 
         <TextView
             android:id="@+id/textViewNull"
@@ -75,10 +62,10 @@
             android:layout_height="wrap_content"
             android:text="@string/history_null"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerViewHistory"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerViewHistory"
-            app:layout_constraintStart_toStartOf="@+id/recyclerViewHistory"
-            app:layout_constraintTop_toTopOf="@+id/recyclerViewHistory" />
+            app:layout_constraintBottom_toBottomOf="@id/viewPager"
+            app:layout_constraintEnd_toEndOf="@id/viewPager"
+            app:layout_constraintStart_toStartOf="@id/viewPager"
+            app:layout_constraintTop_toTopOf="@id/viewPager" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

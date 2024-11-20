@@ -25,6 +25,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         viewModel.isRegistered.observe(this){ isRegistered ->
             if (!isRegistered){
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
@@ -35,8 +37,8 @@ class LoginActivity : AppCompatActivity() {
         binding.textfieldPin.setTextChangeListener(object : OtpView.ChangeListener {
             override fun onTextChange(value: String, completed: Boolean) {
                 if (completed) {
-                    val pinPassword = viewModel.pin.value
-                    viewModel.pin.observe(this@LoginActivity) {
+
+                    viewModel.pin.observe(this@LoginActivity) { pinPassword ->
                         if (pinPassword == value) {
                             startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
                             finish()
