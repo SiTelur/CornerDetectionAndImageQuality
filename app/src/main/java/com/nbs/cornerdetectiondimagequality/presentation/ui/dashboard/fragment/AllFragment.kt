@@ -33,10 +33,10 @@ class AllFragment : Fragment() {
         _binding = FragmentAllBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
-
+    val adapter = HistoryAdapter()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = HistoryAdapter()
+
         binding.recyclerViewAll.adapter = adapter.withLoadStateFooter(footer = HistoryLoadStateAdapter())
         binding.recyclerViewAll.layoutManager = LinearLayoutManager(requireContext())
 
@@ -50,6 +50,11 @@ class AllFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.refresh()
     }
 
 }

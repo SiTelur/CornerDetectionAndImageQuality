@@ -44,10 +44,10 @@ class SuccessFragment : Fragment() {
         _binding = FragmentSuccessBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
-
+    val adapter = HistoryAdapter()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = HistoryAdapter()
+
         binding.recyclerViewSuccess.adapter = adapter.withLoadStateFooter(footer = HistoryLoadStateAdapter())
         binding.recyclerViewSuccess.layoutManager = LinearLayoutManager(requireContext())
 
@@ -60,7 +60,12 @@ class SuccessFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("Test", "onResume: ")
+        adapter.refresh()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 
