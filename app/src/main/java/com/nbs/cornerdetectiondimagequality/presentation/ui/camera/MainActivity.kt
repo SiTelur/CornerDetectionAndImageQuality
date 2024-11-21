@@ -162,7 +162,7 @@ takePicture()
         uri: Uri?
     ) {
      runOnUiThread{
-         val data = HistoryActivity(title = "Pendeteksian", pictureUri = uri.toString(), timestamp = LocalDateTime.now(), isSuccess = false )
+         val data = HistoryActivity(title = "Pendeteksian", pictureUri = uri.toString(), timestamp = LocalDateTime.now(), isSuccess = true )
          cameraViewModel.insertData(data)
          Log.d(TAG, "onResults: $data")
      }

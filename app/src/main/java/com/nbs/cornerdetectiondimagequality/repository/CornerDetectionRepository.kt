@@ -6,12 +6,15 @@ import androidx.lifecycle.asLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.liveData
 import com.nbs.cornerdetectiondimagequality.data.local.dao.HistoryDao
 import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
 import com.nbs.cornerdetectiondimagequality.presentation.component.AllHistoryPagingSource
 import com.nbs.cornerdetectiondimagequality.presentation.component.SpecificHistoryPagingSource
 import com.nbs.cornerdetectiondimagequality.utils.Session
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 
 class CornerDetectionRepository(
     private val session: Session,
@@ -32,7 +35,7 @@ class CornerDetectionRepository(
         session.setRegistered(status)
     }
 
-    fun getAllHistory(): LiveData<PagingData<HistoryActivity>> {
+    fun getAllHistory(): Flow<PagingData<HistoryActivity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5,
@@ -42,10 +45,10 @@ class CornerDetectionRepository(
             pagingSourceFactory = {
                 AllHistoryPagingSource(dao)
             }
-        ).liveData
+        ).flow
     }
 
-    fun getSuccessHistory(): LiveData<PagingData<HistoryActivity>> {
+    fun getSuccessHistory(): Flow<PagingData<HistoryActivity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5,
@@ -55,11 +58,11 @@ class CornerDetectionRepository(
             pagingSourceFactory = {
                 SpecificHistoryPagingSource(true, dao)
             }
-        ).liveData
+        ).flow
     }
 
 
-    fun getFailureHistory(): LiveData<PagingData<HistoryActivity>> {
+    fun getFailureHistory(): Flow<PagingData<HistoryActivity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5,
@@ -69,7 +72,7 @@ class CornerDetectionRepository(
             pagingSourceFactory = {
                 SpecificHistoryPagingSource(false, dao)
             }
-        ).liveData
+        ).flow
     }
 
     suspend fun insertHistory(history: HistoryActivity) {

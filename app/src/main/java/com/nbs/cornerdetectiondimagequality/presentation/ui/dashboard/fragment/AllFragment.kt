@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nbs.cornerdetectiondimagequality.R
 import com.nbs.cornerdetectiondimagequality.databinding.FragmentAllBinding
@@ -13,6 +14,8 @@ import com.nbs.cornerdetectiondimagequality.presentation.component.HistoryAdapte
 import com.nbs.cornerdetectiondimagequality.presentation.component.HistoryLoadStateAdapter
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.DashboardViewModel
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class AllFragment : Fragment() {
 
@@ -37,10 +40,11 @@ class AllFragment : Fragment() {
         binding.recyclerViewAll.adapter = adapter.withLoadStateFooter(footer = HistoryLoadStateAdapter())
         binding.recyclerViewAll.layoutManager = LinearLayoutManager(requireContext())
 
-        historyViewModel.getAllHistory.observe(viewLifecycleOwner){ data ->
-            adapter.submitData(lifecycle,data)
+        lifecycleScope.launch{
+            historyViewModel.getSuccessHistory.collectLatest {  data ->
+                adapter.submitData(data)
+            }
         }
-
     }
 
     override fun onDestroy() {

@@ -1,11 +1,13 @@
 package com.nbs.cornerdetectiondimagequality.presentation.ui.dashboard.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nbs.cornerdetectiondimagequality.R
 import com.nbs.cornerdetectiondimagequality.databinding.FragmentSuccessBinding
@@ -13,6 +15,8 @@ import com.nbs.cornerdetectiondimagequality.presentation.component.HistoryAdapte
 import com.nbs.cornerdetectiondimagequality.presentation.component.HistoryLoadStateAdapter
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.DashboardViewModel
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,9 +51,16 @@ class SuccessFragment : Fragment() {
         binding.recyclerViewSuccess.adapter = adapter.withLoadStateFooter(footer = HistoryLoadStateAdapter())
         binding.recyclerViewSuccess.layoutManager = LinearLayoutManager(requireContext())
 
-        historyViewModel.getSuccessHistory.observe(viewLifecycleOwner){ data ->
-            adapter.submitData(lifecycle,data)
-        }
+       lifecycleScope.launch{
+           historyViewModel.getSuccessHistory.collectLatest {  data ->
+               adapter.submitData(data)
+           }
+       }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("Test", "onResume: ")
     }
 
 
