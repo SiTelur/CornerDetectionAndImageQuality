@@ -52,7 +52,7 @@ class SuccessFragment : Fragment() {
         binding.recyclerViewSuccess.layoutManager = LinearLayoutManager(requireContext())
 
        lifecycleScope.launch{
-           historyViewModel.getSuccessHistory.collectLatest {  data ->
+           historyViewModel.getSuccessHistory().collectLatest {  data ->
                adapter.submitData(data)
            }
        }
@@ -60,7 +60,6 @@ class SuccessFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapter.refresh()
     }
 
     override fun onDestroy() {

@@ -17,4 +17,7 @@ interface HistoryDao {
 
     @Query("SELECT * FROM HistoryActivity ORDER BY id ASC LIMIT :limit OFFSET :offset")
     suspend fun getPagedList(limit: Int, offset: Int): List<HistoryActivity>
+
+    @Query("SELECT * FROM HistoryActivity ORDER BY id ASC")
+    fun getHistory() : List<HistoryActivity>
 }

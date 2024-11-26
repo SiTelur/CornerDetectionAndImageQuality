@@ -70,13 +70,6 @@ class LoginActivity : AppCompatActivity() {
 //            }
 //        }
 
-        binding.btnRegister.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@LoginActivity,
-                    RegisterActivity::class.java
-                )
-            )
-        }
+
     }
 }
