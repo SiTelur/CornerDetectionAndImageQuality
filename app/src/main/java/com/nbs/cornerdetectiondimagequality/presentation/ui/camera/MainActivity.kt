@@ -24,6 +24,7 @@ import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityMainBinding
 import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper
 import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper.ClassifierListener
+import com.nbs.cornerdetectiondimagequality.presentation.component.ReminderFragment
 import com.nbs.cornerdetectiondimagequality.presentation.component.ResultFragment
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.CameraViewModel
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
@@ -48,6 +49,8 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
+        showModelReminder()
+
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         } else {
@@ -55,15 +58,13 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
         }
 
         activityMainBinding.cameraButton.setOnClickListener {
-takePicture()
+            takePicture()
         }
 
         cropOverlay = ImageView(this).apply {
             setImageResource(R.drawable.rectangle_shape)
             setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         }
-
-
     }
 
     private fun showModalSheet(image : String) {
@@ -72,7 +73,12 @@ takePicture()
             putString(ResultFragment.Companion.IMAGE, image)
         }
         modalBottomSheet.arguments = bundle
-        modalBottomSheet.show(supportFragmentManager, ResultFragment.Companion.TAG)
+        modalBottomSheet.show(supportFragmentManager, ResultFragment.TAG)
+    }
+
+    private fun showModelReminder() {
+        val reminderModel = ReminderFragment()
+        reminderModel.show(supportFragmentManager, ReminderFragment.TAG)
     }
 
     private fun allPermissionsGranted() =

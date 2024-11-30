@@ -11,7 +11,6 @@ class AuthViewModel(private val repository: CornerDetectionRepository): ViewMode
 
     val pin: LiveData<String?> = repository.pin
     val isRegistered: LiveData<Boolean> = repository.isRegistered
-    val isLogin = repository.isLogin
 
     fun savePin(pin: String) {
         viewModelScope.launch {
