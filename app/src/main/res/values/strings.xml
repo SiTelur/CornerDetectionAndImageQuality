@@ -20,7 +20,7 @@
         <item>Menampilkan halaman 4 Corner</item>
         <item>Foto terlihat jelas</item>
     </string-array>
-    
+
     <string name="reminder_note">
         Pastikan Anda mengambil foto perangkat dengan posisi layar menyala, memiliki kecerahan yang cukup, dan menampilkan gambar dengan 4 corner
     </string>
@@ -28,4 +28,7 @@
     <string name="all">All</string>
     <string name="success">Success</string>
     <string name="failed">Failed</string>
+    
+    <string name="alert_title">Pin</string>
+    <string name="alert_message">Pin created successfully</string>
 </resources>
