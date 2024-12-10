@@ -36,11 +36,10 @@ class RegisterActivity : AppCompatActivity() {
             override fun onTextChange(value: String, completed: Boolean) {
                 if (completed){
                     lifecycleScope.launch {
+                        viewModel.savePin(value)
                         val dialog = showDialog()
                         delay(3000)
                         dialog.dismiss()
-                        viewModel.savePin(value)
-                        startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
                         finish()
                     }
                 }

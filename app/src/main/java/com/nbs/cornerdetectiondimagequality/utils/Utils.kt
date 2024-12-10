@@ -203,3 +203,5 @@ fun Uri.toBitmap(context: Context, maxWidth: Int = 1024, maxHeight: Int = 1024):
 fun Uri.toBitmapWithOrientation(context: Context): Bitmap? {
     return getBitmapWithCorrectRotation(context, this)
 }
+
+

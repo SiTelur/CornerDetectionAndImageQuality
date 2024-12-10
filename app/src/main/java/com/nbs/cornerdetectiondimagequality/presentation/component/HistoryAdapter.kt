@@ -10,6 +10,11 @@ import com.bumptech.glide.Glide
 import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
 import com.nbs.cornerdetectiondimagequality.databinding.ItemLayoutBinding
 import com.nbs.cornerdetectiondimagequality.presentation.component.DashboardListAdapter.DashboardViewHolder
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 class HistoryAdapter : PagingDataAdapter<HistoryActivity, HistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(
@@ -32,7 +37,7 @@ class HistoryAdapter : PagingDataAdapter<HistoryActivity, HistoryAdapter.ViewHol
         fun showList(activity: HistoryActivity?) {
 
             binding.tvTitle.text = activity?.title
-            binding.tvDate.text = activity?.timestamp.toString()
+            activity?.timestamp?.let { binding.tvDate.text = DateToString(it)}
             Glide.with(binding.root)
                 .load(activity?.pictureUri)
                 .centerCrop()
@@ -50,4 +55,11 @@ class HistoryAdapter : PagingDataAdapter<HistoryActivity, HistoryAdapter.ViewHol
         }
     }
 
+    fun DateToString(localDateTime: LocalDateTime): String {
+        // Formatter dengan pola hari, tanggal, bulan, dan tahun
+        val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy", Locale.getDefault())
+        return localDateTime.format(formatter)
+    }
+
 }
+

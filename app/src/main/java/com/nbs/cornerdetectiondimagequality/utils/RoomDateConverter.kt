@@ -21,12 +21,4 @@ class RoomDateConverter {
             )
         }
     }
-
-    fun getCurrentLocalDateTime(): LocalDateTime {
-        return LocalDateTime.now(ZoneId.systemDefault())
-    }
-
-    fun getCurrentZoneId(): ZoneId {
-        return ZoneId.systemDefault()
-    }
 }

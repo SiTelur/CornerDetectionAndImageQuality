@@ -66,7 +66,7 @@ class AllFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+        adapter.refresh()
     }
 
 }

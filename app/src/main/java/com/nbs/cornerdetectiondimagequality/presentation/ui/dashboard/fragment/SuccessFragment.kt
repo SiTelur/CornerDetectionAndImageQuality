@@ -60,6 +60,7 @@ class SuccessFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        adapter.refresh()
     }
 
     override fun onDestroy() {
