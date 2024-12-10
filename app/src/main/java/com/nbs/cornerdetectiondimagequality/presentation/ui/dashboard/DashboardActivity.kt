@@ -7,10 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.nbs.cornerdetectiondimagequality.R
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityDashboardBinding
-import com.nbs.cornerdetectiondimagequality.presentation.component.DashboardListAdapter
-import com.nbs.cornerdetectiondimagequality.presentation.component.HistoryAdapter
-import com.nbs.cornerdetectiondimagequality.presentation.component.ReminderFragment
-import com.nbs.cornerdetectiondimagequality.presentation.component.ViewPagerAdapter
+import com.nbs.cornerdetectiondimagequality.presentation.component.adapter.ViewPagerAdapter
 import com.nbs.cornerdetectiondimagequality.presentation.ui.camera.MainActivity
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.DashboardViewModel
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory

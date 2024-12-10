@@ -6,14 +6,11 @@ import androidx.lifecycle.asLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import androidx.paging.liveData
 import com.nbs.cornerdetectiondimagequality.data.local.dao.HistoryDao
-import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
-import com.nbs.cornerdetectiondimagequality.presentation.component.AllHistoryPagingSource
-import com.nbs.cornerdetectiondimagequality.presentation.component.SpecificHistoryPagingSource
+import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
+import com.nbs.cornerdetectiondimagequality.presentation.component.paging3.AllHistoryPagingSource
+import com.nbs.cornerdetectiondimagequality.presentation.component.paging3.SpecificHistoryPagingSource
 import com.nbs.cornerdetectiondimagequality.utils.Session
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 class CornerDetectionRepository(
@@ -35,7 +32,7 @@ class CornerDetectionRepository(
         session.setRegistered(status)
     }
 
-    fun getAllHistory(): Flow<PagingData<HistoryActivity>> {
+    fun getAllHistory(): Flow<PagingData<HistoryEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5,
@@ -48,7 +45,7 @@ class CornerDetectionRepository(
         ).flow
     }
 
-    fun getSuccessHistory(): Flow<PagingData<HistoryActivity>> {
+    fun getSuccessHistory(): Flow<PagingData<HistoryEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5,
@@ -62,7 +59,7 @@ class CornerDetectionRepository(
     }
 
 
-    fun getFailureHistory(): Flow<PagingData<HistoryActivity>> {
+    fun getFailureHistory(): Flow<PagingData<HistoryEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5,
@@ -75,7 +72,7 @@ class CornerDetectionRepository(
         ).flow
     }
 
-    suspend fun insertHistory(history: HistoryActivity) {
+    suspend fun insertHistory(history: HistoryEntity) {
         dao.insertActivity(history)
     }
 }

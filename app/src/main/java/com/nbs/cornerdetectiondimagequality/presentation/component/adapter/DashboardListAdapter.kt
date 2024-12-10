@@ -1,16 +1,17 @@
-package com.nbs.cornerdetectiondimagequality.presentation.component
+package com.nbs.cornerdetectiondimagequality.presentation.component.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.compose.ui.layout.LayoutInfo
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
+import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import com.nbs.cornerdetectiondimagequality.databinding.ItemLayoutBinding
 
-class DashboardListAdapter: ListAdapter<HistoryActivity, DashboardListAdapter.DashboardViewHolder>(DIFF_CALLBACK) {
+class DashboardListAdapter: ListAdapter<HistoryEntity, DashboardListAdapter.DashboardViewHolder>(
+    DIFF_CALLBACK
+) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -28,7 +29,7 @@ class DashboardListAdapter: ListAdapter<HistoryActivity, DashboardListAdapter.Da
     }
 
     inner class DashboardViewHolder(val binding : ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
-        fun showList(activity: HistoryActivity) {
+        fun showList(activity: HistoryEntity) {
 
             binding.tvTitle.text = activity.title
             binding.tvDate.text = activity.timestamp.toString()
@@ -37,12 +38,12 @@ class DashboardListAdapter: ListAdapter<HistoryActivity, DashboardListAdapter.Da
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HistoryActivity>() {
-            override fun areItemsTheSame(oldItem: HistoryActivity, newItem: HistoryActivity): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HistoryEntity>() {
+            override fun areItemsTheSame(oldItem: HistoryEntity, newItem: HistoryEntity): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: HistoryActivity, newItem: HistoryActivity): Boolean {
+            override fun areContentsTheSame(oldItem: HistoryEntity, newItem: HistoryEntity): Boolean {
                 return oldItem == newItem
             }
         }

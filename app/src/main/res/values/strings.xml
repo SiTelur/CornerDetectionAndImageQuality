@@ -28,7 +28,7 @@
     <string name="all">All</string>
     <string name="success">Success</string>
     <string name="failed">Failed</string>
-    
+
     <string name="alert_title">Pin</string>
     <string name="alert_message">Pin created successfully</string>
 </resources>

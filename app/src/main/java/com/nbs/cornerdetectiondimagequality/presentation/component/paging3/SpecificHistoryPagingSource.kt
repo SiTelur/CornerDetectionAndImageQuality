@@ -1,17 +1,15 @@
-package com.nbs.cornerdetectiondimagequality.presentation.component
+package com.nbs.cornerdetectiondimagequality.presentation.component.paging3
 
 import android.util.Log
 import androidx.paging.PagingSource
-import androidx.paging.PagingSource.LoadParams
-import androidx.paging.PagingSource.LoadResult
 import androidx.paging.PagingState
 import com.nbs.cornerdetectiondimagequality.data.local.dao.HistoryDao
-import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
+import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import kotlinx.coroutines.delay
 
-class SpecificHistoryPagingSource(private val condition : Boolean,private val dao : HistoryDao) : PagingSource<Int, HistoryActivity>() {
+class SpecificHistoryPagingSource(private val condition : Boolean,private val dao : HistoryDao) : PagingSource<Int, HistoryEntity>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HistoryActivity> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HistoryEntity> {
         val page = params.key ?: 0
 
         return try {
@@ -28,7 +26,7 @@ class SpecificHistoryPagingSource(private val condition : Boolean,private val da
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, HistoryActivity>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, HistoryEntity>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)

@@ -19,7 +19,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.nbs.cornerdetectiondimagequality.R
-import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
+import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import com.nbs.cornerdetectiondimagequality.databinding.ActivityMainBinding
 import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper
 import com.nbs.cornerdetectiondimagequality.helper.CornerDetectionHelper.ClassifierListener
@@ -28,9 +28,7 @@ import com.nbs.cornerdetectiondimagequality.presentation.component.ResultFragmen
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.CameraViewModel
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
 import com.nbs.cornerdetectiondimagequality.utils.createCustomTempFile
-import kotlinx.coroutines.delay
 import org.tensorflow.lite.task.gms.vision.classifier.Classifications
-import org.tensorflow.lite.task.gms.vision.detector.Detection
 import java.text.NumberFormat
 import java.time.LocalDateTime
 
@@ -146,9 +144,6 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
         )
     }
 
-
-
-
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -173,10 +168,7 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
         uri: Uri?
     ) {
      runOnUiThread{
-         val data = HistoryActivity(title = "Pendeteksian", pictureUri = uri.toString(), timestamp = LocalDateTime.now(), isSuccess = true )
-//        if (uri != null) {
-//            showModalSheet(uri)
-//        }
+         val data = HistoryEntity(title = "Pendeteksian", pictureUri = uri.toString(), score = 0.0, timestamp = LocalDateTime.now(), isSuccess = true )
 
          results?.let { it ->
              if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
@@ -191,19 +183,30 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
                  Log.d(TAG, "onResults:$displayResult $results")
 
                  if (sortedCategories[0].score > 0.80 && sortedCategories[0].score < 0.95){
-                     val data = HistoryActivity(title = "Pendeteksian Berhasil", pictureUri = uri.toString(), timestamp = LocalDateTime.now(), isSuccess = true )
+                     val data = HistoryEntity(
+                         title = "Pendeteksian Berhasil",
+                         pictureUri = uri.toString(),
+                         score = sortedCategories[0].score.toDouble(),
+                         timestamp = LocalDateTime.now(),
+                         isSuccess = true
+                     )
                      cameraViewModel.insertData(data)
                      Toast.makeText(this, "Berhasil Mendeteksi Corner, Anda Akan Dialihkan Ke Dashboard", Toast.LENGTH_SHORT).show()
                      finish()
                  } else {
                      showModalSheet(uri)
-                     val data = HistoryActivity(title = "Pendeteksian Gagal", pictureUri = uri.toString(), timestamp = LocalDateTime.now(), isSuccess = false )
+                     val data = HistoryEntity(
+                         title = "Pendeteksian Gagal",
+                         pictureUri = uri.toString(),
+                         score = sortedCategories[0].score.toDouble(),
+                         timestamp = LocalDateTime.now(),
+                         isSuccess = false
+                     )
                      cameraViewModel.insertData(data)
+                     }
                  }
-
              }
-         }
-     }
+        }
     }
 
 

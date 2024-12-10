@@ -1,13 +1,11 @@
 package com.nbs.cornerdetectiondimagequality.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.nbs.cornerdetectiondimagequality.data.Resource
-import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
+import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import com.nbs.cornerdetectiondimagequality.repository.CornerDetectionRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,21 +13,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class DashboardViewModel(val repository: CornerDetectionRepository): ViewModel() {
+class DashboardViewModel(private val repository: CornerDetectionRepository): ViewModel() {
 
-    private var _allHistory : MutableStateFlow<Resource<PagingData<HistoryActivity>>> = MutableStateFlow(Resource.Idle)
-    val allHistory : StateFlow<Resource<PagingData<HistoryActivity>>> = _allHistory.asStateFlow()
+    private var _allHistory : MutableStateFlow<Resource<PagingData<HistoryEntity>>> = MutableStateFlow(Resource.Idle)
+    val allHistory : StateFlow<Resource<PagingData<HistoryEntity>>> = _allHistory.asStateFlow()
 
     init {
         getAllHistory()
 
     }
 
-    fun getAllHistory() {
+    private fun getAllHistory() {
         viewModelScope.launch {
             _allHistory.value = Resource.Loading
             repository.getAllHistory()
@@ -43,13 +40,11 @@ class DashboardViewModel(val repository: CornerDetectionRepository): ViewModel()
     }
 
 
-        fun getSuccessHistory() =
-            repository.getSuccessHistory().flowOn(Dispatchers.IO).cachedIn(viewModelScope)
+    fun getSuccessHistory() =
+        repository.getSuccessHistory().flowOn(Dispatchers.IO).cachedIn(viewModelScope)
 
-        val getFailureHistory: Flow<PagingData<HistoryActivity>> =
-            repository.getFailureHistory().flowOn(
-                Dispatchers.IO
-            ).cachedIn(viewModelScope)
-
-
+    val getFailureHistory: Flow<PagingData<HistoryEntity>> =
+        repository.getFailureHistory().flowOn(
+            Dispatchers.IO
+        ).cachedIn(viewModelScope)
 }

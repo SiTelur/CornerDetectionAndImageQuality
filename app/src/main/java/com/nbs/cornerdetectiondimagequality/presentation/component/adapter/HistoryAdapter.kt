@@ -1,22 +1,20 @@
-package com.nbs.cornerdetectiondimagequality.presentation.component
+package com.nbs.cornerdetectiondimagequality.presentation.component.adapter
 
-import android.net.Uri
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
+import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import com.nbs.cornerdetectiondimagequality.databinding.ItemLayoutBinding
-import com.nbs.cornerdetectiondimagequality.presentation.component.DashboardListAdapter.DashboardViewHolder
+import com.nbs.cornerdetectiondimagequality.presentation.component.DetailFragment
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.Locale
 
-class HistoryAdapter : PagingDataAdapter<HistoryActivity, HistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
+class HistoryAdapter(private val onItemClick: (HistoryEntity) -> Unit) : PagingDataAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -34,7 +32,7 @@ class HistoryAdapter : PagingDataAdapter<HistoryActivity, HistoryAdapter.ViewHol
     }
 
     inner class ViewHolder(val binding : ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
-        fun showList(activity: HistoryActivity?) {
+        fun showList(activity: HistoryEntity?) {
 
             binding.tvTitle.text = activity?.title
             activity?.timestamp?.let { binding.tvDate.text = DateToString(it)}
@@ -43,14 +41,15 @@ class HistoryAdapter : PagingDataAdapter<HistoryActivity, HistoryAdapter.ViewHol
                 .centerCrop()
                 .into(binding.imageView)
 
+            itemView.setOnClickListener { onItemClick(activity!!) }
         }
     }
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HistoryActivity>() {
-            override fun areItemsTheSame(oldItem: HistoryActivity, newItem: HistoryActivity): Boolean =
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HistoryEntity>() {
+            override fun areItemsTheSame(oldItem: HistoryEntity, newItem: HistoryEntity): Boolean =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: HistoryActivity, newItem: HistoryActivity): Boolean =
+            override fun areContentsTheSame(oldItem: HistoryEntity, newItem: HistoryEntity): Boolean =
                 oldItem == newItem
         }
     }
@@ -60,6 +59,5 @@ class HistoryAdapter : PagingDataAdapter<HistoryActivity, HistoryAdapter.ViewHol
         val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy", Locale.getDefault())
         return localDateTime.format(formatter)
     }
-
 }
 

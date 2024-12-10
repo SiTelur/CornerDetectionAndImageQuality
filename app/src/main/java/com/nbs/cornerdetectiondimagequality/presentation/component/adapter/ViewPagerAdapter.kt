@@ -1,4 +1,4 @@
-package com.nbs.cornerdetectiondimagequality.presentation.component
+package com.nbs.cornerdetectiondimagequality.presentation.component.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

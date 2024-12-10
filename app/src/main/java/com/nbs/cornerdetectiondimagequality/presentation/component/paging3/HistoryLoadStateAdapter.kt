@@ -1,4 +1,4 @@
-package com.nbs.cornerdetectiondimagequality.presentation.component
+package com.nbs.cornerdetectiondimagequality.presentation.component.paging3
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

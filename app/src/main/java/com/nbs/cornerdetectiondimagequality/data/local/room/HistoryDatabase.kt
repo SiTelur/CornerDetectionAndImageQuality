@@ -4,13 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.nbs.cornerdetectiondimagequality.data.local.dao.HistoryDao
-import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryActivity
+import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import com.nbs.cornerdetectiondimagequality.utils.RoomDateConverter
 
-@Database(entities = [HistoryActivity::class], version = 1, exportSchema = false)
+@Database(entities = [HistoryEntity::class], version = 2123, exportSchema = false)
 @TypeConverters(RoomDateConverter::class)
 abstract class HistoryDatabase : RoomDatabase() {
     abstract fun historyDao(): HistoryDao
@@ -24,6 +23,7 @@ abstract class HistoryDatabase : RoomDatabase() {
                 synchronized(HistoryDatabase::class.java){
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
                         HistoryDatabase::class.java,"history_database")
+                        .fallbackToDestructiveMigration()
                         .build()
                 }
             }
