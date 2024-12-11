@@ -13,7 +13,7 @@ interface HistoryDao {
     suspend fun insertActivity(activity: HistoryEntity)
 
     @Query("SELECT * FROM HistoryEntity WHERE isSuccess = :success ORDER BY timestamp DESC LIMIT :limit OFFSET :offset")
-    suspend fun getActivitiesBySuccess(success: Boolean,limit: Int, offset: Int): List<HistoryEntity>
+    suspend fun getActivitiesBySuccess(success: Boolean, limit: Int, offset: Int): List<HistoryEntity>
 
     @Query("SELECT * FROM HistoryEntity ORDER BY id ASC LIMIT :limit OFFSET :offset")
     suspend fun getPagedList(limit: Int, offset: Int): List<HistoryEntity>
@@ -23,5 +23,4 @@ interface HistoryDao {
 
     @Query("SELECT * FROM HistoryEntity WHERE id = :id")
     suspend fun getHistoryById(id: Int) : HistoryEntity
-
 }

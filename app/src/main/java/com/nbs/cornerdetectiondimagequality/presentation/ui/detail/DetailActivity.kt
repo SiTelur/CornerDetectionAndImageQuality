@@ -40,7 +40,7 @@ class DetailActivity : AppCompatActivity() {
 
             binding.apply {
                 showIcon(history.isSuccess)
-                detailTvStatus.text = getString(R.string.detail_status, history.title)
+                detailTvStatus.text = history.title
                 detailTvScore.text = getString(R.string.detail_threshold, score.toString())
                 detailTvTimestamp.text = DateToString(history.timestamp)
                 detailTvDevice.text = device
@@ -52,7 +52,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun DateToString(localDateTime: LocalDateTime): String {
-        val formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy", Locale.getDefault())
+        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.getDefault())
         return localDateTime.format(formatter)
     }
 

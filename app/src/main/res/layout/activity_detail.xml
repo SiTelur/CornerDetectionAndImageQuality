@@ -11,8 +11,8 @@
         android:id="@+id/imageView8"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detail_img_result"
         app:srcCompat="@drawable/success_icon" />
@@ -32,92 +32,87 @@
         android:id="@+id/detail_tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="35dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView8"
         app:layout_constraintTop_toBottomOf="@+id/detail_img_result"
-        tools:text="Scanned status: Success" />
+        tools:text="Success" />
 
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="32dp"
         android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_tv_status"
+        app:layout_constraintStart_toEndOf="@+id/detail_tv_status"
+        app:layout_constraintTop_toBottomOf="@+id/detail_img_result"
         app:srcCompat="@drawable/twotone_percent_24" />
 
     <TextView
         android:id="@+id/detail_tv_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView7"
-        app:layout_constraintTop_toBottomOf="@+id/detail_tv_status"
-        tools:text="Threshold score: 75%" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_img_result"
+        app:layout_constraintVertical_bias="0.769"
+        tools:text="75%" />
 
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="32dp"
         android:scaleType="fitXY"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_tv_score"
+        app:layout_constraintStart_toEndOf="@+id/detail_tv_score"
+        app:layout_constraintTop_toBottomOf="@+id/detail_img_result"
         app:srcCompat="@drawable/twotone_calendar_month_24" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Scanned on:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.033"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/detail_tv_score" />
 
     <TextView
         android:id="@+id/detail_tv_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="28dp"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView14"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/textView14"
-        tools:text="Wednesday, December 11 2024" />
+        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/detail_img_result"
+        tools:text="Dec 11, 2024" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="32dp"
         android:scaleType="fitXY"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_tv_timestamp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8"
         app:srcCompat="@drawable/twotone_phone_android_24" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="264dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:text="Device used:"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/detail_tv_timestamp" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_tv_status" />
 
     <TextView
         android:id="@+id/detail_tv_device"

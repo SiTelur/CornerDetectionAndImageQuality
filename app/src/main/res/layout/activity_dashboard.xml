@@ -47,24 +47,12 @@
                 android:text="Failed" />
         </com.google.android.material.tabs.TabLayout>
 
-        <Button
-            android:id="@+id/btn_filter"
-            style="@style/Widget.Material3.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="Filter by"
-            app:icon="@drawable/twotone_filter_list_24"
-            app:iconPadding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
-
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_filter"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
             tools:layout_editor_absoluteX="8dp" />
 
         <TextView

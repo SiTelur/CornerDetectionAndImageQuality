@@ -16,11 +16,8 @@ import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.DashboardView
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
 
 class DashboardActivity : AppCompatActivity() {
-    lateinit var binding: ActivityDashboardBinding
-    private val dashboardViewModel by viewModels<DashboardViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
 
+    private lateinit var binding: ActivityDashboardBinding
     private lateinit var adapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +29,6 @@ class DashboardActivity : AppCompatActivity() {
 
         adapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
-
-        binding.btnFilter.setOnClickListener { v: View -> showMenu(v, R.menu.menu_filter) }
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
@@ -47,26 +42,5 @@ class DashboardActivity : AppCompatActivity() {
         binding.floatingActionButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
-    }
-
-    private fun showMenu(v: View?, @MenuRes menuRes: Int) {
-        val popup = PopupMenu(this, v)
-        popup.menuInflater.inflate(menuRes, popup.menu)
-
-        popup.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.title.toString()) {
-                "Default" -> {
-                    true
-                }
-                "Threshold score" -> {
-                    true
-                }
-                "Date" -> {
-                    true
-                }
-                else -> false
-            }
-        }
-        popup.show()
     }
 }

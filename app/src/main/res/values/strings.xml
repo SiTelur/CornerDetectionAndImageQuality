@@ -34,5 +34,5 @@
     <string name="detail_action_bar_title">Detail</string>
 
     <string name="detail_status">Scanned status: %1$s</string>
-    <string name="detail_threshold">Threshold score: %1$s</string>
+    <string name="detail_threshold">%1$s%%</string>
 </resources>
