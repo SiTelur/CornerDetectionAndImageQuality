@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import com.nbs.cornerdetectiondimagequality.databinding.FragmentDetailBinding
 import com.nbs.cornerdetectiondimagequality.presentation.component.adapter.HistoryAdapter
@@ -13,7 +14,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class DetailFragment : DialogFragment() {
+class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBinding
 
@@ -38,9 +39,6 @@ class DetailFragment : DialogFragment() {
             detailTvStatus.text = status?.trimIndent()
             detailTvScore.text = "${score.toString().trimIndent()}%"
             detailTvTimestamp.text = timestamp?.trimIndent()
-            btnOk.setOnClickListener {
-                dismiss()
-            }
         }
     }
 

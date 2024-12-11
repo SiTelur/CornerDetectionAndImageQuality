@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nbs.cornerdetectiondimagequality.R
 import com.nbs.cornerdetectiondimagequality.databinding.FragmentFailureBinding
 import com.nbs.cornerdetectiondimagequality.presentation.component.DetailFragment
 import com.nbs.cornerdetectiondimagequality.presentation.component.adapter.HistoryAdapter
@@ -33,17 +35,14 @@ class FailureFragment : Fragment() {
         _binding = FragmentFailureBinding.inflate(layoutInflater,container,false    )
         return binding.root
     }
-    private val adapter = HistoryAdapter { historyItem ->
-        val detailFragment = DetailFragment.newInstance(historyItem)
-        detailFragment.show(parentFragmentManager, DetailFragment::class.java.simpleName)
-    }
+    private val adapter = HistoryAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
         binding.recyclerViewFailed.adapter = adapter.withLoadStateFooter(footer = HistoryLoadStateAdapter())
-        binding.recyclerViewFailed.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewFailed.layoutManager = GridLayoutManager(requireContext(), 2)
 
         lifecycleScope.launch{
             viewModel.getFailureHistory.collectLatest {  data ->

@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
 
                  if (sortedCategories[0].score > 0.80 && sortedCategories[0].score < 0.95){
                      val data = HistoryEntity(
-                         title = "Pendeteksian Berhasil",
+                         title = "Success",
                          pictureUri = uri.toString(),
                          score = sortedCategories[0].score.toDouble(),
                          timestamp = LocalDateTime.now(),
@@ -202,7 +202,7 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
                  } else {
                      showModalSheet(uri)
                      val data = HistoryEntity(
-                         title = "Pendeteksian Gagal",
+                         title = "Failed",
                          pictureUri = uri.toString(),
                          score = sortedCategories[0].score.toDouble(),
                          timestamp = LocalDateTime.now(),
@@ -218,7 +218,7 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
     private val launchGallery = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri: Uri? ->
         if (uri != null) {
             cornerDetectionHelper.detectCorner(uri)
-        }else {
+        } else {
             Toast.makeText(this@MainActivity, "Anda Belum Memilih Foto", Toast.LENGTH_SHORT).show()
         }
     }

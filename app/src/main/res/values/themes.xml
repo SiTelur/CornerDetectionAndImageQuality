@@ -61,4 +61,9 @@
         <item name="android:layout_marginVertical">8dp</item>
         <item name="android:layout_marginHorizontal">8dp</item>
     </style>
+
+    <style name="RoundedCorners">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
 </resources>

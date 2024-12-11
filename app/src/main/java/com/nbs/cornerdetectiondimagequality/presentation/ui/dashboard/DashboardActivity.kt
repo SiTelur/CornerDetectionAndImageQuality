@@ -2,7 +2,10 @@ package com.nbs.cornerdetectiondimagequality.presentation.ui.dashboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.PopupMenu
+import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.nbs.cornerdetectiondimagequality.R
@@ -24,9 +27,13 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.title = getString(R.string.dashboard)
+
         adapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
-        supportActionBar?.title = getString(R.string.dashboard)
+
+        binding.btnFilter.setOnClickListener { v: View -> showMenu(v, R.menu.menu_filter) }
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
@@ -40,5 +47,26 @@ class DashboardActivity : AppCompatActivity() {
         binding.floatingActionButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
+    }
+
+    private fun showMenu(v: View?, @MenuRes menuRes: Int) {
+        val popup = PopupMenu(this, v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+        popup.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.title.toString()) {
+                "Default" -> {
+                    true
+                }
+                "Threshold score" -> {
+                    true
+                }
+                "Date" -> {
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
     }
 }

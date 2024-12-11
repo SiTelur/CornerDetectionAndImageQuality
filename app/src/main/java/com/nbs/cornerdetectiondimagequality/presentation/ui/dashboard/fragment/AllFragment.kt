@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nbs.cornerdetectiondimagequality.R
 import com.nbs.cornerdetectiondimagequality.data.Resource
 import com.nbs.cornerdetectiondimagequality.databinding.FragmentAllBinding
 import com.nbs.cornerdetectiondimagequality.presentation.component.DetailFragment
@@ -34,17 +36,14 @@ class AllFragment : Fragment() {
         _binding = FragmentAllBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
-    private val adapter = HistoryAdapter { historyItem ->
-        val detailFragment = DetailFragment.newInstance(historyItem)
-        detailFragment.show(parentFragmentManager, DetailFragment::class.java.simpleName)
-    }
+
+    private val adapter = HistoryAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerViewAll.adapter = adapter.withLoadStateFooter(footer = HistoryLoadStateAdapter())
-        binding.recyclerViewAll.layoutManager = LinearLayoutManager(requireContext())
-
+        binding.recyclerViewAll.layoutManager = GridLayoutManager(requireContext(), 2)
 
         lifecycleScope.launch{
             historyViewModel.allHistory.collectLatest {  data ->

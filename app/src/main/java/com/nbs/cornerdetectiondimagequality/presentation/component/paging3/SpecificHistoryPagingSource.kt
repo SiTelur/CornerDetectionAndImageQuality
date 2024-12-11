@@ -7,14 +7,17 @@ import com.nbs.cornerdetectiondimagequality.data.local.dao.HistoryDao
 import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import kotlinx.coroutines.delay
 
-class SpecificHistoryPagingSource(private val condition : Boolean,private val dao : HistoryDao) : PagingSource<Int, HistoryEntity>() {
+class SpecificHistoryPagingSource(
+    private val condition : Boolean,
+    private val dao : HistoryDao
+) : PagingSource<Int, HistoryEntity>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HistoryEntity> {
         val page = params.key ?: 0
 
         return try {
             Log.d("MainPagingSource", "load: $page")
-            val entities = dao.getActivitiesBySuccess(condition,params.loadSize, page * params.loadSize)
+            val entities = dao.getActivitiesBySuccess(condition, params.loadSize, page * params.loadSize)
             if (page != 0) delay(1000)
             LoadResult.Page(
                 data = entities,

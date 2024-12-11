@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import com.nbs.cornerdetectiondimagequality.databinding.ItemLayoutBinding
+import java.util.Locale
 
 class DashboardListAdapter: ListAdapter<HistoryEntity, DashboardListAdapter.DashboardViewHolder>(
     DIFF_CALLBACK
@@ -30,10 +31,11 @@ class DashboardListAdapter: ListAdapter<HistoryEntity, DashboardListAdapter.Dash
 
     inner class DashboardViewHolder(val binding : ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         fun showList(activity: HistoryEntity) {
-
-            binding.tvTitle.text = activity.title
-            binding.tvDate.text = activity.timestamp.toString()
-            binding.imageView.setImageURI(Uri.parse(activity.pictureUri))
+            binding.apply {
+                itemTvStatus.text = activity.title
+                itemTvScore.text = String.format(Locale.US, "%d%", (activity.score.times(100)).toInt())
+                imageView.setImageURI(Uri.parse(activity.pictureUri))
+            }
         }
     }
 

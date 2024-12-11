@@ -1,5 +1,6 @@
 package com.nbs.cornerdetectiondimagequality.presentation.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -21,9 +22,11 @@ class DashboardViewModel(private val repository: CornerDetectionRepository): Vie
     private var _allHistory : MutableStateFlow<Resource<PagingData<HistoryEntity>>> = MutableStateFlow(Resource.Idle)
     val allHistory : StateFlow<Resource<PagingData<HistoryEntity>>> = _allHistory.asStateFlow()
 
+    private var _detailHistory = MutableLiveData<HistoryEntity>()
+    val detailHistory : MutableLiveData<HistoryEntity> = _detailHistory
+
     init {
         getAllHistory()
-
     }
 
     private fun getAllHistory() {
@@ -36,6 +39,12 @@ class DashboardViewModel(private val repository: CornerDetectionRepository): Vie
                 .collect { history ->
                     _allHistory.value = Resource.Success(history)
                 }
+        }
+    }
+
+    fun getDetailHistory(id: Int) {
+        viewModelScope.launch {
+            _detailHistory.value = repository.getDetailHistory(id)
         }
     }
 

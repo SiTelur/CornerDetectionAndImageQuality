@@ -10,11 +10,12 @@ import com.bumptech.glide.Glide
 import com.nbs.cornerdetectiondimagequality.data.local.entity.HistoryEntity
 import com.nbs.cornerdetectiondimagequality.databinding.ItemLayoutBinding
 import com.nbs.cornerdetectiondimagequality.presentation.component.DetailFragment
+import com.nbs.cornerdetectiondimagequality.presentation.ui.detail.DetailActivity
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class HistoryAdapter(private val onItemClick: (HistoryEntity) -> Unit) : PagingDataAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
+class HistoryAdapter : PagingDataAdapter<HistoryEntity, HistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -33,15 +34,23 @@ class HistoryAdapter(private val onItemClick: (HistoryEntity) -> Unit) : PagingD
 
     inner class ViewHolder(val binding : ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         fun showList(activity: HistoryEntity?) {
+            if (activity != null) {
+                binding.apply {
+                    itemTvStatus.text = activity.title
+                    itemTvScore.text = "${activity.score.times(100).toInt()}%"
 
-            binding.tvTitle.text = activity?.title
-            activity?.timestamp?.let { binding.tvDate.text = DateToString(it)}
-            Glide.with(binding.root)
-                .load(activity?.pictureUri)
-                .centerCrop()
-                .into(binding.imageView)
+                    Glide.with(binding.root)
+                        .load(activity.pictureUri)
+                        .centerCrop()
+                        .into(binding.imageView)
+                }
 
-            itemView.setOnClickListener { onItemClick(activity!!) }
+                itemView.setOnClickListener {
+                    itemView.context.startActivity(Intent(itemView.context, DetailActivity::class.java).apply {
+                        putExtra("id", activity.id)
+                    })
+                }
+            }
         }
     }
     companion object {

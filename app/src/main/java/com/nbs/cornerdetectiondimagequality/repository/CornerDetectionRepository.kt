@@ -72,6 +72,10 @@ class CornerDetectionRepository(
         ).flow
     }
 
+    suspend fun getDetailHistory(id: Int) : HistoryEntity{
+        return dao.getHistoryById(id)
+    }
+
     suspend fun insertHistory(history: HistoryEntity) {
         dao.insertActivity(history)
     }
