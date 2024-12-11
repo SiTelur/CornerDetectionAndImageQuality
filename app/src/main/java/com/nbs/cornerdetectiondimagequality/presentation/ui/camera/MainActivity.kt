@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
@@ -31,6 +29,8 @@ import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.CameraViewMod
 import com.nbs.cornerdetectiondimagequality.presentation.viewmodel.ViewModelFactory
 import com.nbs.cornerdetectiondimagequality.utils.createCustomTempFile
 import org.tensorflow.lite.task.gms.vision.classifier.Classifications
+import java.io.File
+import java.io.FileOutputStream
 import java.text.NumberFormat
 import java.time.LocalDateTime
 
@@ -216,10 +216,44 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
     }
 
     private val launchGallery = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri: Uri? ->
+
         if (uri != null) {
-            cornerDetectionHelper.detectCorner(uri)
-        } else {
+            val localImage = saveImageToInternalStorage(uri)
+            if (localImage != null) {
+                cornerDetectionHelper.detectCorner(localImage) // Pass the saved URI to detectCorner
+            } else {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Error saving image. Please try again.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        }else {
             Toast.makeText(this@MainActivity, "Anda Belum Memilih Foto", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun saveImageToInternalStorage(sourceUri: Uri): Uri? {
+        return try {
+            // Generate a unique filename
+            val fileName = "image_${System.currentTimeMillis()}.jpg"
+
+            // Create a file in the internal storage directory
+            val destinationFile = File(filesDir, fileName)
+
+            // Copy the image data from the source URI to the destination file
+            contentResolver.openInputStream(sourceUri)?.use { inputStream ->
+                FileOutputStream(destinationFile).use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
+
+            // Return the URI of the saved file
+            Uri.fromFile(destinationFile)
+        } catch (e: Exception) {
+            Log.e("SaveImage", "Error saving image to internal storage", e)
+            null
         }
     }
 

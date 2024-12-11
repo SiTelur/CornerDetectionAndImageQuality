@@ -14,7 +14,7 @@ class HistoryLoadStateAdapter: LoadStateAdapter<HistoryLoadStateAdapter.LoadStat
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
         return LoadStateViewHolder(
-            LoadStateViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            LoadStateViewBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
 

@@ -37,7 +37,7 @@ class CornerDetectionRepository(
             config = PagingConfig(
                 pageSize = 5,
                 enablePlaceholders = false,
-                initialLoadSize = 10
+                initialLoadSize = 5
             ),
             pagingSourceFactory = {
                 AllHistoryPagingSource(dao)
@@ -50,7 +50,7 @@ class CornerDetectionRepository(
             config = PagingConfig(
                 pageSize = 5,
                 enablePlaceholders = false,
-                initialLoadSize = 10
+                initialLoadSize = 5
             ),
             pagingSourceFactory = {
                 SpecificHistoryPagingSource(true, dao)
@@ -64,7 +64,7 @@ class CornerDetectionRepository(
             config = PagingConfig(
                 pageSize = 5,
                 enablePlaceholders = false,
-                initialLoadSize = 10
+                initialLoadSize = 5
             ),
             pagingSourceFactory = {
                 SpecificHistoryPagingSource(false, dao)
