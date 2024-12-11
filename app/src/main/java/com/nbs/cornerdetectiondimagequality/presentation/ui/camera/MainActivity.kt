@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -65,6 +67,10 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
         cropOverlay = ImageView(this).apply {
             setImageResource(R.drawable.rectangle_shape)
             setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        }
+
+        activityMainBinding.imageButton.setOnClickListener{
+            launchGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
 
@@ -206,6 +212,14 @@ class MainActivity : AppCompatActivity() , ClassifierListener{
                      }
                  }
              }
+        }
+    }
+
+    private val launchGallery = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri: Uri? ->
+        if (uri != null) {
+            cornerDetectionHelper.detectCorner(uri)
+        }else {
+            Toast.makeText(this@MainActivity, "Anda Belum Memilih Foto", Toast.LENGTH_SHORT).show()
         }
     }
 

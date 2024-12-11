@@ -15,7 +15,7 @@
         android:clickable="true"
         android:contentDescription="@string/camera"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/ic_camera" />
+        app:srcCompat="@drawable/ic_photo_camera" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

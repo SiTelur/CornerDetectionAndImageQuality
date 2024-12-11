@@ -37,4 +37,14 @@
             app:layout_constraintTop_toTopOf="parent">
         </androidx.camera.view.PreviewView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cameraButton"
+        app:srcCompat="@drawable/ic_photo_galery" />
 </androidx.constraintlayout.widget.ConstraintLayout>
