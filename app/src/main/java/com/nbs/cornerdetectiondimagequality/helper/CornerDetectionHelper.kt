@@ -3,6 +3,7 @@ package com.nbs.cornerdetectiondimagequality.helper
 import com.nbs.cornerdetectiondimagequality.R
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.Surface
 import androidx.camera.core.ImageProxy
 import com.google.android.gms.tflite.client.TfLiteInitializationOptions
 import com.google.android.gms.tflite.gpu.support.TfLiteGpu
+import com.nbs.cornerdetectiondimagequality.utils.toBitmap
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.gpu.CompatibilityList
 import org.tensorflow.lite.support.common.ops.CastOp
@@ -17,16 +19,19 @@ import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
+import org.tensorflow.lite.support.metadata.schema.NormalizationOptions
 import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.core.vision.ImageProcessingOptions
 import org.tensorflow.lite.task.gms.vision.TfLiteVision
 import org.tensorflow.lite.task.gms.vision.classifier.Classifications
 import org.tensorflow.lite.task.gms.vision.classifier.ImageClassifier
+import org.tensorflow.lite.task.gms.vision.detector.Detection
+import org.tensorflow.lite.task.gms.vision.detector.ObjectDetector
 
 class CornerDetectionHelper(
-    val threshold: Float = 0.5f,
-    val maxResult: Int = 1,
-    val modelName : String = "model.tflite",
+    val threshold: Float = 0.4f,
+    val maxResult: Int = 1                                                              ,
+    val modelName : String = "final_model_metadata.tflite",
     val context: Context,
     val imageClassifierListener: ClassifierListener?
 ) {
@@ -52,10 +57,8 @@ class CornerDetectionHelper(
             Log.e(TAG, "setupObjectDetector: TfLiteVision is not initialized yet")
             return
         }
-
         val optionsBuilder = ImageClassifier.ImageClassifierOptions.builder()
-            .setScoreThreshold(threshold)
-            .setMaxResults(maxResult)
+
 
         val baseOptionsBuilder = BaseOptions.builder()
 
@@ -79,7 +82,7 @@ class CornerDetectionHelper(
         }
     }
 
-    fun detect(image: ImageProxy) {
+    fun detectCorner(uri: Uri?) {
 
         if (!TfLiteVision.isInitialized()) {
             val errorMessage = context.getString(R.string.tflitevision_is_not_initialized_yet)
@@ -96,14 +99,12 @@ class CornerDetectionHelper(
 
         val imageProcessor = ImageProcessor.Builder()
             .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
-//            .add(NormalizeOp(127.5f, 127.5f))
             .add(CastOp(DataType.UINT8))
             .build()
 
-        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(toBitmap(image)))
+        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(uri?.toBitmap(context)))
 
         val imageProcessingOptions = ImageProcessingOptions.builder()
-            .setOrientation(getOrientationFromRotation(image.imageInfo.rotationDegrees))
             .build()
 
 
@@ -111,15 +112,17 @@ class CornerDetectionHelper(
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
         imageClassifierListener?.onResults(
             results,
-            inferenceTime
+            inferenceTime,
+            uri
         )
     }
 
     interface ClassifierListener {
         fun onError(error: String)
         fun onResults(
-            results: List<Classifications>?,
-            inferenceTime: Long
+            results: List<Classifications   >?,
+            inferenceTime: Long,
+            uri: Uri?
         )
     }
 
